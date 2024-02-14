@@ -55,7 +55,7 @@ describe("test benchmarking", () => {
 
         console.time("BenchmarkCheckWebsites"); // Start measuring time
 
-        for (let i = 0; i < 1000; i++) { // Assuming b.N in Go equals 1000
+        for (let i = 0; i < 100000; i++) { // Assuming b.N in Go equals 1000
             checkWebsites(slowStubWebsiteChecker, urls);
         }
 
