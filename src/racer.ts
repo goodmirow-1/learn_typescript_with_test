@@ -1,12 +1,12 @@
 export async function Racer(a: string, b: string): Promise<string> {
-           const winner = await Promise.race([ping(a), ping(b)]);
-           return winner;
+    const [responseA, responseB] = await Promise.all([ping(a), ping(b)]);
+    return responseA ? a : b;
 }
 
-function ping(url: string): Promise<string> {
-   return new Promise(resolve => {
-       fetch(url)
-           .then(() => resolve(url))
-           .catch(() => resolve('')); // or you can resolve with some error value
-   });
+export function ping(url: string): Promise<boolean> {
+    return new Promise(resolve => {
+        fetch(url)
+            .then(() => resolve(true))
+            .catch(() => resolve(false));
+    });
 }
