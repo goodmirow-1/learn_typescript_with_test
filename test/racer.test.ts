@@ -1,11 +1,11 @@
 import { Racer } from '../src/racer'
 
-test("test racer", () => {
+test("test racer", async () => {
     const slowURL = "http://www.facebook.com";
-    const fastURL = "http://www.quii.co.uk";
+    const fastURL = "http://www.naver.com";
 
     const want = fastURL;
-    const got = Racer(slowURL, fastURL);
+    const got = await Racer(slowURL, fastURL);
 
     expect(got).toBe(want);
 })
