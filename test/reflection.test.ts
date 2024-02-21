@@ -13,5 +13,5 @@ test('test reflection', () => {
         got.push(input);
     })
 
-    expect(got.length).toBe(1);
+    expect(got[0]).toBe(expected);
 })

@@ -1,4 +1,11 @@
 
 export function walk(x: { [key: string]: any }, callback: (input: string) => void) {
-    callback("I still can't believe South Korea beat Germany 2-0 to put them last in their group");
+    const keys = Object.keys(x);
+    if(keys.length > 0){
+        const firstKey = keys[0];
+        const firstValue = x[firstKey];
+        if (typeof firstValue === 'string') {
+            callback(firstValue);
+        }
+    }
 }
