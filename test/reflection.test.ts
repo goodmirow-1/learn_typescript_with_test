@@ -19,7 +19,7 @@ test('test reflection', () => {
 interface struct {
     Name: string;
     Input: { [key: string]: any};
-    ExpectedCalls: string[];
+    ExpectedCalls: any[];
 }
 
 const cases: struct[] = [
@@ -32,7 +32,23 @@ const cases: struct[] = [
         Name: "Struct with two string field",
         Input: { Name: "Chris", City: "London" },
         ExpectedCalls: ["Chris", "London"],
-    }
+    },
+    {
+        Name: "Struct with non string field",
+        Input: { Name: "Chris", Age: 33 },
+        ExpectedCalls: ["Chris", 33],
+    },
+    {
+        Name: "Nested fields",
+        Input: {
+            Name: "Chris",
+            Profile: {
+                Age: 33,
+                City: "London"
+            }
+        },
+        ExpectedCalls: ["Chris", { Age: 33, City: "London" }],
+    },
 ];
 
 describe('test walk', () => {
