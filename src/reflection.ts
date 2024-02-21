@@ -2,16 +2,22 @@
 export function walk(x: { [key: string]: any }, callback: (input: string) => void) {
     const val = getValue(x);
 
+    let numberOfValues = 0;
+    let getField: ((index: number) => any) | null = null;
+
     switch (typeof val) {
         case 'object':
-            if (Array.isArray(val)){ val.forEach((item: any) => walk(item, callback)); break;}
-
-            for (const key in val) {
-                if (val.hasOwnProperty(key)) {
-                    walk(val[key], callback);
-                }
+            if (Array.isArray(val)){
+                numberOfValues = val.length;
+                getField = (index) => val[index];
+            }else{
+                numberOfValues = Object.keys(val).length;
+                getField = (index) => Object.values(val)[index];
             }
 
+            for(let i = 0 ; i < numberOfValues ; ++i){
+                walk(getField(i), callback);
+            }
             break;
         case 'string':
             callback(val);
