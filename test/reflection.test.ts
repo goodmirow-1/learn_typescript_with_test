@@ -28,6 +28,11 @@ const cases: struct[] = [
         Input: { Name: "Chris" },
         ExpectedCalls: ["Chris"],
     },
+    {
+        Name: "Struct with two string field",
+        Input: { Name: "Chris", City: "London" },
+        ExpectedCalls: ["Chris", "London"],
+    }
 ];
 
 describe('test walk', () => {
