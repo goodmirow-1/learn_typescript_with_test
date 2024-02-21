@@ -50,10 +50,18 @@ const cases: struct[] = [
         ExpectedCalls: ["Chris","London"],
     },
     {
-        Name: "slices",
+        Name: "slices or arrays",
         Input: [{Age : 33, City: "London"}, {Age: 34, City: "Reykjavík"}],
         ExpectedCalls: ["London", "Reykjavík"],
     },
+    {
+        Name: "Maps",
+        Input: {
+            Foo: "Bar",
+            Baz: "Boz",
+        },
+        ExpectedCalls: ["Bar", "Boz"],
+    }
 ];
 
 describe('test walk', () => {
