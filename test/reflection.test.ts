@@ -75,3 +75,36 @@ describe('test walk', () => {
         });
     });
 })
+
+describe('with channel', () => {
+    interface Profile {
+        age: number;
+        city: string;
+    }
+
+    // Simulating asynchronous data stream using a Promise
+    function getData(): Promise<Profile[]> {
+        return new Promise((resolve) => {
+            // Simulate asynchronous data streaming
+            setTimeout(() => {
+                resolve([
+                    { age: 33, city: "Berlin" },
+                    { age: 34, city: "Katowice" }
+                ]);
+            }, 1000); // Simulating delay of 1 second
+        });
+    }
+
+    test('test case channel', async () => {
+        const aChannel = getData();
+
+        let got: string[] = [];
+        const want: string[] = ["Berlin", "Katowice"];
+
+        await walk(aChannel, (input) => {
+            got.push(input);
+        });
+
+        expect(got).toEqual(want);
+    })
+})

@@ -1,6 +1,6 @@
 
-export function walk(x: { [key: string]: any }, callback: (input: string) => void) {
-    const val = getValue(x);
+export async function walk(x: { [key: string]: any }, callback: (input: string) => void) {
+    const val = await getValue(x);
 
     let numberOfValues = 0;
     let getField: ((index: number) => any) | null = null;
@@ -10,14 +10,16 @@ export function walk(x: { [key: string]: any }, callback: (input: string) => voi
             if (Array.isArray(val)){
                 numberOfValues = val.length;
                 getField = (index) => val[index];
-            }else{
+            }
+            else{
                 numberOfValues = Object.keys(val).length;
                 getField = (index) => Object.values(val)[index];
             }
 
             for(let i = 0 ; i < numberOfValues ; ++i){
-                walk(getField(i), callback);
+                await walk(getField(i), callback);
             }
+
             break;
         case 'string':
             callback(val);
@@ -25,7 +27,16 @@ export function walk(x: { [key: string]: any }, callback: (input: string) => voi
     }
 }
 
-function getValue(x: { [key: string]: any}) : any {
+async function getValue(x: { [key: string]: any}) : Promise<any> {
+    if(x instanceof Promise){
+        return x.then((resolvedValue) => {
+            return resolvedValue;
+        }).catch((error) => {
+            console.error("Error occurred while resolving Promise:", error);
+            throw error;
+        });
+    }
+
     if (typeof x === 'object' && x !== null && !Array.isArray(x)) {
         return Object.values(x);
     } else {
