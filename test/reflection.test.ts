@@ -66,9 +66,9 @@ const cases: struct[] = [
 
 describe('test walk', () => {
     cases.forEach( struct => {
-        test(`Test case: ${struct.Name}`, () => {
+        test(`Test case: ${struct.Name}`, async() => {
             let got: string[] = [];
-            walk(struct.Input, (input: string) => {
+            await walk(struct.Input, (input: string) => {
                 got.push(input);
             });
             expect(got).toEqual(struct.ExpectedCalls);
@@ -107,4 +107,19 @@ describe('with channel', () => {
 
         expect(got).toEqual(want);
     })
+})
+
+test('test function', async() => {
+    const aFunction = (): [any, any] => {
+        return [{ id: 33, city: "Berlin" }, { id: 34, city: "Katowice" }];
+    };
+
+    const got: string[] = [];
+    const want: string[] = ["Berlin", "Katowice"];
+
+    await walk(aFunction, (input: string) => {
+        got.push(input);
+    });
+
+    expect(got).toEqual(want);
 })
