@@ -36,7 +36,7 @@ const cases: struct[] = [
     {
         Name: "Struct with non string field",
         Input: { Name: "Chris", Age: 33 },
-        ExpectedCalls: ["Chris", 33],
+        ExpectedCalls: ["Chris"],
     },
     {
         Name: "Nested fields",
@@ -47,7 +47,12 @@ const cases: struct[] = [
                 City: "London"
             }
         },
-        ExpectedCalls: ["Chris", { Age: 33, City: "London" }],
+        ExpectedCalls: ["Chris","London"],
+    },
+    {
+        Name: "slices",
+        Input: [{Age : 33, City: "London"}, {Age: 34, City: "Reykjavík"}],
+        ExpectedCalls: ["London", "Reykjavík"],
     },
 ];
 
