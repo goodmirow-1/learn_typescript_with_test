@@ -37,6 +37,20 @@ async function getValue(x: { [key: string]: any}) : Promise<any> {
         });
     }
 
+    if (typeof x === 'function') {
+        const result = x();
+        if (result instanceof Promise) {
+            return result.then((resolvedValue) => {
+                return resolvedValue;
+            }).catch((error) => {
+                console.error("Error occurred while resolving Promise:", error);
+                throw error;
+            });
+        } else {
+            return result;
+        }
+    }
+
     if (typeof x === 'object' && x !== null && !Array.isArray(x)) {
         return Object.values(x);
     } else {
