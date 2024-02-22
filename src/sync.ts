@@ -1,9 +1,11 @@
 export class Counter{
-    Inc(){
+    value : number = 0;
 
+    Inc(){
+        this.value++
     }
 
     Value() : number {
-        return 0;
+        return this.value;
     }
 }
