@@ -1,31 +1,32 @@
 import {Counter} from "../src/sync";
 
+function assertCounter(got:Counter, want:number ){
 
+    expect(got.Value()).toBe(want);
+}
 test('incrementing the counter 3 times leaves it at 3', () => {
     const counter = new Counter();
     counter.Inc();
     counter.Inc();
     counter.Inc();
 
-    const got = counter.Value();
-    const want = 3;
-
-    expect(got).toBe(want);
+    assertCounter(counter,3)
 })
 
-describe('incrementing the counter 3 times leaves it at 3', () => {
 
-    function assertCounter(got:Counter, want:number ){
+test('it runs safely concurrently', async() => {
+    const wantedCount: number = 1000;
+    const counter: Counter = new Counter();
 
-        expect(got.Value()).toBe(want);
+    const promises: Promise<void>[] = [];
+
+    for (let i: number = 0; i < wantedCount; i++) {
+        promises.push((async () => {
+            counter.Inc();
+        })());
     }
 
-    test('test call', () => {
-        const counter = new Counter();
-        counter.Inc();
-        counter.Inc();
-        counter.Inc();
+    await Promise.all(promises);
 
-        assertCounter(counter,3)
-    })
+    assertCounter(counter,wantedCount)
 })
